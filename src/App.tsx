@@ -1,25 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Main from './components/Products/Main';
+import Layout from './components/Layout/Layout';
+import Home from './components/Home/Home';
+import loadable from '@loadable/component';
+
+const Welcome = loadable(() => import('./components/Welcome/Welcome'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<Main/>} >
+                  <Route index element={<Home/>}/>
+                  <Route path="layout" element={<Layout/>}>
+                      <Route index element={<Welcome title={'Layout'} />}/>
+                      <Route path=":number" element={<Welcome title={'Layout'} />}/>
+                  </Route>
+                  <Route path="welcome">
+                      <Route index element={<Welcome />}/>
+                      <Route path=":number" element={<Welcome />}/>
+                  </Route>
+              </Route>
+          </Routes>
+      </BrowserRouter>
   );
 }
 
